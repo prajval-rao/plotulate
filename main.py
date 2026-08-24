@@ -1,47 +1,53 @@
-from fastapi import FastAPI, UploadFile, File, HTTPException
+from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.responses import RedirectResponse
+import io
 import pandas as pd
-import json
-from io import BytesIO
+import openpyxl
+from fastapi.middleware.cors import CORSMiddleware
+
 app = FastAPI()
 
-def column_formatting(df):
-    for column in df.columns:
-        if df[column].dtype == "object":
-            try:
-                df[column] = pd.to_datetime(df[column], errors="raise")
-                continue
-            except Exception:
-                pass
-            try:
-                df[column] = pd.to_numeric(df[column], errors="raise")
-                continue
-            except Exception:
-                pass
-            try:
-                df[column] = pd.to_timedelta(df[column], errors="raise")
-                continue
-            except Exception:
-                pass            
-    return {column: str(df[column].dtype) for column in df.columns}
-        
+origins = ["http://127.0.0.1:5500/", "http://localhost:3000"]
 
-@app.post("/upload")
-async def input_data(file: UploadFile  = File(...)):
-    if not file.filename.endswith(".xlsx"):
-        raise HTTPException(status_code=400, detail="Invalid file type")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+@app.get("/")
+async def home():
+    return RedirectResponse(url="/upload")
+
+@app.get("/upload")
+async def upload_file(file: UploadFile = File(...)):
+    if not file.filename.endswith(("xlsx", "xls")):
+        raise HTTPException(status_code=400, detail="Upload file of correct type. ")
     contents = await file.read()
-    df = pd.read_excel(BytesIO(contents))
-    metadata = {
-        "filename": file.filename,
-        "total_rows": len(df),
-        "total_columns": len(df.columns),
-        "columns": column_formatting(df)
-    }
-    df.to_json("data.json", orient="records", indent=4, date_format="iso")
-    return metadata
 
-
+    try:
+        df = pd.read_excel(io.BytesIO.read(contents))
+        df.fillna(0)
+        for column in df:
+            try:
+                df[column] = df[column].astype("int64")
+                continue
+            except:
+                pass
+            try:
+                df[column] = df[column].astype("float64")
+                continue
+            except:
+                pass
+            try:
+                df[column] = df[column].astype("datetime64[ns]")
+            except:
+                raise HTTPException(status_code=400, detail="One or more columns are of an unsupported datatype. ")
+    except:
+        raise HTTPException(status_code=400, detail="Excel file failed to load. ")
+    return {'filename': file.filename, 'content': df.to_json(orient="table")}
 
 
 
