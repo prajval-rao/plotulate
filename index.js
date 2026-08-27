@@ -1,15 +1,27 @@
-async function fetch_data(){
-    const url = "http://127.0.0.1:5500/upload";
+document.querySelector("form").addEventListener("submit", async (e) => {e.preventDefault();
+    const filedata = document.getElementById("data");
+    const file = filedata.files[0];
+    if (!file){
+        alert("Select an Excel File first!!");
+        return;
+    }
+    const formdata = new FormData();
+    formdata.append("file", file);
     try{
-        const response = await fetch(url);
-        if (!response.ok){
-            throw new Error(`HTTP Error! Status code ${response.status}`);
-        }
-        const data = await response.json();
-        console.log(data);
+        const response = await fetch("http://127.0.0.1:8000/submit", {
+            method: "POST",
+            body: formdata
+        });
+        if (!response.ok) throw new Error("Server error parsing Excel File!!!");
+        const cleandata = await response.json();
+        console.log("Cleaned data: ", cleandata.filename);
+        const rows = cleandata.content;
+        rows.forEach(row => {
+            console.log(row);
+        })
     }
-    catch (error){
-        console.error("Failed to fetch data!")
+    catch(error){
+        console.error("Upload failed", error);
+        alert("Failed")
     }
-
-}
+})
