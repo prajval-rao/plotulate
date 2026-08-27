@@ -1,13 +1,16 @@
-from fastapi import FastAPI, File, UploadFile, HTTPException
+from fastapi import FastAPI, File, UploadFile, HTTPException, Request
 from fastapi.responses import RedirectResponse
 import io
 import pandas as pd
 import openpyxl
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.templating import Jinja2Templates
+import python_multipart
 
 app = FastAPI()
+templates = Jinja2Templates(directory="templates")
 
-origins = ["http://127.0.0.1:5500/", "http://localhost:3000"]
+origins = ["http://127.0.0.1:5500", "http://localhost:3000"]
 
 app.add_middleware(
     CORSMiddleware,
@@ -17,37 +20,30 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/")
-async def home():
-    return RedirectResponse(url="/upload")
-
-@app.get("/upload")
-async def upload_file(file: UploadFile = File(...)):
+@app.post("/submit")
+async def format_file(file: UploadFile = File(...)):
     if not file.filename.endswith(("xlsx", "xls")):
         raise HTTPException(status_code=400, detail="Upload file of correct type. ")
     contents = await file.read()
 
     try:
-        df = pd.read_excel(io.BytesIO.read(contents))
-        df.fillna(0)
-        for column in df:
-            try:
-                df[column] = df[column].astype("int64")
+        df = pd.read_excel(io.BytesIO(contents))
+        df = df.fillna(0)
+        for column in df.columns:
+            if pd.api.types.is_datetime64_any_dtype(df[column]):
+                df[column] = df[column].dt.strftime('%Y-%m-%d %H:%M:%S')
                 continue
-            except:
-                pass
-            try:
-                df[column] = df[column].astype("float64")
-                continue
-            except:
-                pass
-            try:
-                df[column] = df[column].astype("datetime64[ns]")
-            except:
-                raise HTTPException(status_code=400, detail="One or more columns are of an unsupported datatype. ")
-    except:
-        raise HTTPException(status_code=400, detail="Excel file failed to load. ")
-    return {'filename': file.filename, 'content': df.to_json(orient="table")}
+            if df[column].dtype == "object":
+                try:
+                    df[column] = pd.to_datetime(df[column], errors="raise")
+                    df[column] = df[column].dt.strftime('%Y-%m-%d %H:%M:%S')
+                    continue
+                except (ValueError, TypeError):
+                    pass
+            df[column] = pd.to_numeric(df[column], errors="coerce").fillna(df[column])
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Excel file failed to load: {e}")
+    return {'filename': file.filename, 'content': df.to_dict(orient="records")}
 
 
 
