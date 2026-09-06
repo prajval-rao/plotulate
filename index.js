@@ -1,3 +1,6 @@
+import { createGrid, ModuleRegistry, AllCommunityModule } from 'https://cdn.jsdelivr.net/npm/ag-grid-community@latest/+esm';
+let gridApi = null;
+ModuleRegistry.registerModules([AllCommunityModule]);
 document.querySelector("form").addEventListener("submit", async (e) => {e.preventDefault();
     const filedata = document.getElementById("data");
     const file = filedata.files[0];
@@ -19,9 +22,38 @@ document.querySelector("form").addEventListener("submit", async (e) => {e.preven
         rows.forEach(row => {
             console.log(row);
         })
+
+        const generatedColDefs = Object.keys(rows[0]).map(key => {
+        return {
+            field: key,
+            headerName: key.charAt(0).toUpperCase() + key.slice(1)
+        };
+        });
+
+        const gridOptions = {
+        columnDefs: generatedColDefs,
+        rowData: rows,
+        
+        defaultColDef: {
+            sortable: true,
+            filter: true,
+            editable: true,
+            flex: 1
+        }
+        };
+
+        let gridDiv = document.getElementById("myGrid");
+        if (gridApi){
+            gridApi.setGridOption("columnDefs", generatedColDefs);
+            gridApi.setGridOption("rowData", rows);
+        }
+        else{
+            gridDiv.innerHTML = "";
+            gridApi = createGrid(gridDiv, gridOptions);
+        }
     }
     catch(error){
-        console.error("Upload failed", error);
-        alert("Failed")
+        console.error("Error!", error);
+        alert("Failed");
     }
 })
