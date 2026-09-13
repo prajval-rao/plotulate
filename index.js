@@ -46,10 +46,12 @@ document.querySelector("form").addEventListener("submit", async (e) => {e.preven
         if (gridApi){
             gridApi.setGridOption("columnDefs", generatedColDefs);
             gridApi.setGridOption("rowData", rows);
+            gridApi.sizeColumnsToFit();
         }
         else{
             gridDiv.innerHTML = "";
             gridApi = createGrid(gridDiv, gridOptions);
+            gridApi.sizeColumnsToFit();
         }
     }
     catch(error){

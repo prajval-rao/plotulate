@@ -7,10 +7,21 @@
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
-        <form action="/submit" method="POST" enctype="multipart/form-data">
+        <section class="hero-banner">
+            <div class="banner-content">
+                <br><br><br>
+                <img src="6c0bec_d60b9cecc97348ffb8037e947cc4a149~mv2.png" width="150" height="150"> 
+                <h2>Spreadsheet inference and visualisation tool</h2>
+            </div>
+        </section>
+        <hr><br><br>
+
+        <form action="/submit" method="POST" class="form_submit" enctype="multipart/form-data">
             <input type="file" id="data" name="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
-            <button type="submit" id="uploadfilebutton">Upload</button>
+            <button type="submit" id="uploadfilebutton" class="ment">Upload</button>
         </form>
+        <br><br>
+        <hr>
         <script type="module" src="index.js"></script>
         <div id="myGrid"></div>
     </body>
