@@ -1,11 +1,4 @@
-from fastapi import FastAPI, File, UploadFile, HTTPException, Request
-from fastapi.responses import RedirectResponse
-import io
-import pandas as pd
-import openpyxl
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.templating import Jinja2Templates
-import python_multipart
+from imports import *
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
@@ -35,8 +28,7 @@ async def format_file(file: UploadFile = File(...)):
                 continue
             if df[column].dtype == "object":
                 try:
-                    df[column] = pd.to_datetime(df[column], errors="raise")
-                    df[column] = df[column].dt.strftime('%Y-%m-%d %H:%M:%S')
+                    df[column] = pd.to_datetime(df[column], errors="raise", format="%Y-%m-%d")
                     continue
                 except (ValueError, TypeError):
                     pass
@@ -44,9 +36,4 @@ async def format_file(file: UploadFile = File(...)):
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Excel file failed to load: {e}")
     return {'filename': file.filename, 'content': df.to_dict(orient="records")}
-
-
-
-
-
 
