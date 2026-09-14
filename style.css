@@ -12,7 +12,11 @@
 body{
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     background-color: #f5eede;
+    margin: 0;
+    width: 100vw;
+    height: 20vh;
 }
+
 
 #myGrid {
   height: 500px;
@@ -48,4 +52,9 @@ body{
 .form_submit {
     position: relative;
     padding: 0 20px;
+}
+
+.sheet_data {
+    width: 80%;
+    height: 100%;
 }

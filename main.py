@@ -13,12 +13,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 @app.post("/submit")
 async def format_file(file: UploadFile = File(...)):
     if not file.filename.endswith(("xlsx", "xls")):
         raise HTTPException(status_code=400, detail="Upload file of correct type. ")
     contents = await file.read()
-
     try:
         df = pd.read_excel(io.BytesIO(contents))
         df = df.fillna(0)
