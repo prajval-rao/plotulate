@@ -1,9 +1,13 @@
 import { createGrid, ModuleRegistry, AllCommunityModule } from 'https://cdn.jsdelivr.net/npm/ag-grid-community@latest/+esm';
 let gridApi = null;
 ModuleRegistry.registerModules([AllCommunityModule]);
-document.querySelector("form").addEventListener("submit", async (e) => {e.preventDefault();
-    const filedata = document.getElementById("data");
-    const file = filedata.files[0];
+let filedata = null;
+let file = null;
+
+document.getElementById("uploadfile").addEventListener("submit", async (e) => {e.preventDefault();
+    /* change to track: const filedata and file now not const as query should access these */
+    filedata = document.getElementById("data");
+    file = filedata.files[0];
     if (!file){
         alert("Select an Excel File first!!");
         return;
@@ -57,5 +61,51 @@ document.querySelector("form").addEventListener("submit", async (e) => {e.preven
     catch(error){
         console.error("Error!", error);
         alert("Failed");
+    }
+})
+
+const openBtn = document.getElementById('openBtn');
+const closeBtn = document.getElementById('closeBtn');
+const overlay = document.getElementById('popupOverlay');
+let opened = false;
+
+overlay.style.display = 'none';
+
+openBtn.addEventListener('click', () => {
+    if (opened){
+        overlay.style.display = 'none';
+        opened = false;
+    }
+    else{
+        overlay.style.display = 'flex';
+        opened = true;
+    }
+});
+
+// Hide the popup
+closeBtn.addEventListener('click', () => {
+  overlay.style.display = 'none';
+});
+
+// Optional: Close if user clicks anywhere outside the box
+window.addEventListener('click', (e) => {
+  if (e.target === overlay) {
+    overlay.style.display = 'none';
+  }
+});
+
+const prompt_button = document.getElementById("promptcall");
+let generated_response = document.getElementById("llm_response");
+
+document.getElementById("query_form").addEventListener("submit", async (e) => {e.preventDefault();
+    if (!userprompt.value){
+        generated_response.textContent = "You have not typed a prompt, which is necessary for a response. "
+    }
+    else if (!filedata){
+        generated_response.textContent = "No document provided!";
+    }
+    else{
+        generated_response.textContent = "";
+
     }
 })
