@@ -12,3 +12,6 @@ from typing import TypedDict, Any
 from langgraph.checkpoint.memory import MemorySaver
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langgraph.graph import StateGraph, MessagesState, START, END
+from pydantic import BaseModel
+from dotenv import load_dotenv
+import os

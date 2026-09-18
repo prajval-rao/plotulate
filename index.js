@@ -3,6 +3,7 @@ let gridApi = null;
 ModuleRegistry.registerModules([AllCommunityModule]);
 let filedata = null;
 let file = null;
+let data_for_query = null;
 
 document.getElementById("uploadfile").addEventListener("submit", async (e) => {e.preventDefault();
     /* change to track: const filedata and file now not const as query should access these */
@@ -22,6 +23,7 @@ document.getElementById("uploadfile").addEventListener("submit", async (e) => {e
         if (!response.ok) throw new Error("Server error parsing Excel File!!!");
         const cleandata = await response.json();
         console.log("Cleaned data: ", cleandata.filename);
+        data_for_query = cleandata.content;
         const rows = cleandata.content;
         rows.forEach(row => {
             console.log(row);
@@ -101,11 +103,29 @@ document.getElementById("query_form").addEventListener("submit", async (e) => {e
     if (!userprompt.value){
         generated_response.textContent = "You have not typed a prompt, which is necessary for a response. "
     }
-    else if (!filedata){
+    else if (!data_for_query){
         generated_response.textContent = "No document provided!";
     }
     else{
-        generated_response.textContent = "";
-
+        try{
+            const response = await fetch("http://127.0.0.1:8000/query/generate_response", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    query: userprompt.value,
+                    session_id: "session1",
+                    file_content: data_for_query
+                })
+            })
+            if (!response.ok) throw new Error("Server error returning LLM response!!!");
+            const clean_response = await response.json();
+            generated_response.textContent = clean_response.output;
+        }
+        catch(error){
+            console.error("Error!", error)
+            alert("LLM response failed to fetch")
+        }
     }
 })
