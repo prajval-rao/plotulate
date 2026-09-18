@@ -49,7 +49,7 @@ Plotulate is a data visualisation web tool — upload a dataset, explore it in a
    ```
 3. Run the server (from the directory containing `root.py`):
    ```bash
-   uvicorn root:root_app --reload --port 8000
+   uvicorn router:root_app --reload --port 8000
    ```
 
 ### Frontend
@@ -67,6 +67,6 @@ All endpoints are served under `http://127.0.0.1:8000`.
 
 ## Notes
 
-- CORS is currently allow-listed for `http://127.0.0.1:5500` and `http://localhost:3000` — update the `origins` list in `main.py`/`query.py`/`root.py` if you serve the frontend elsewhere.
+- CORS is currently allow-listed for `http://127.0.0.1:5500` and `http://localhost:3000` — update the `origins` list in `main.py`/`query.py`/`router.py` if you serve the frontend elsewhere.
 - Session state (`session_storage`) is in-memory and per-process — it resets on server restart and isn't shared across multiple server instances.
-- `root.py` mounts sub-apps by prefix; when adding new mounts, register more specific prefixes (e.g. `/query`) **before** the catch-all `/` mount, since Starlette matches mounts in registration order.
+- `router.py` mounts sub-apps by prefix; when adding new mounts, register more specific prefixes (e.g. `/query`) **before** the catch-all `/` mount.
