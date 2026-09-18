@@ -24,16 +24,15 @@ Plotulate is a data visualisation web tool — upload a dataset, explore it in a
 .
 ├── main.py            # FastAPI app: handles /submit (Excel upload + cleaning)
 ├── query.py            # FastAPI app: handles /generate_response (LLM querying)
-├── root.py             # Mounts main.py and query.py apps into one root app
+├── router.py             # Mounts main.py and query.py apps into one root app
 ├── imports.py           # Shared imports used across backend modules
 ├── index.js             # Frontend logic: upload handling, ag-Grid rendering, query calls
-├── uploadfile.html       # Upload UI
-├── practice.html/practice.js  # Scratch/experimental frontend page
 ├── style.css             # Styling
-├── data.json             # Sample/scratch data
+├── assets/               # Static assets
+├── uploadfile.html       # Upload UI
 ├── requirements.txt      # Python dependencies
-├── package.json / package-lock.json  # Frontend dependencies
-└── assets/               # Static assets
+└── package.json / package-lock.json  # Frontend dependencies
+
 ```
 
 ## Setup
