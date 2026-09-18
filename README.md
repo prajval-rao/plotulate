@@ -70,3 +70,11 @@ All endpoints are served under `http://127.0.0.1:8000`.
 - CORS is currently allow-listed for `http://127.0.0.1:5500` and `http://localhost:3000` — update the `origins` list in `main.py`/`query.py`/`router.py` if you serve the frontend elsewhere.
 - Session state (`session_storage`) is in-memory and per-process — it resets on server restart and isn't shared across multiple server instances.
 - `router.py` mounts sub-apps by prefix; when adding new mounts, register more specific prefixes (e.g. `/query`) **before** the catch-all `/` mount.
+
+## Planned future features:
+
+- Actual chart generation
+- Chart export
+- Persistent storage and user profile storage
+- Multi-file support
+- Real-time changes on editing grid
