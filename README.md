@@ -47,7 +47,7 @@ Plotulate is a data visualisation web tool — upload a dataset, explore it in a
    ```
    GOOGLE_API_KEY=your_api_key_here
    ```
-3. Run the server (from the directory containing `root.py`):
+3. Run the server (from the directory containing `router.py`):
    ```bash
    uvicorn router:root_app --reload --port 8000
    ```
