@@ -121,7 +121,7 @@ document.getElementById("query_form").addEventListener("submit", async (e) => {e
             })
             if (!response.ok) throw new Error("Server error returning LLM response!!!");
             const clean_response = await response.json();
-            generated_response.textContent = clean_response.output;
+            generated_response.replaceChildren(clean_response.output);
         }
         catch(error){
             console.error("Error!", error)

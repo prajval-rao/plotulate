@@ -16,24 +16,28 @@
         </section>
         <hr><br><br>
 
-        <button id="openBtn" class="query_button">Query</button><br><br>
-        <div id="popupOverlay" class="overlay">
-            <div class="popup-box">
-                <h2>Ask your query!</h2>
-                <p>Ask questions about the dataset</p>
-                <form action="submit" id="query_form" method="POST">
-                    <input type="text" id="userprompt" class="query_field" placeholder="Enter prompt here">
-                    <button type="submit" id="promptcall" class="ment">Ask!</button>
-                    <p id="llm_response"></p>
-                </form>
-                <button id="closeBtn" class="ment_counter">Close</button>
-            </div>
-        </div><br>
+        <div id="options_area" class="options_area">
+            <button id="openBtn" class="query_button">Query</button><br><br>
+            <div id="popupOverlay" class="overlay">
+                <div class="popup-box">
+                    <h2>Ask your query!</h2>
+                    <p>Ask questions about the dataset</p>
+                    <form action="submit" id="query_form" method="POST">
+                        <div class="query_row">
+                            <input type="text" id="userprompt" class="query_field" placeholder="Enter prompt here">
+                            <button type="submit" id="promptcall" class="ment">Ask!</button>
+                        </div>
+                        <p id="llm_response"></p>
+                    </form>
+                    <button id="closeBtn" class="ment_counter">Close</button>
+                </div>
+            </div><br>
 
-        <form action="/submit" id="uploadfile" method="POST" class="form_submit" enctype="multipart/form-data">
-            <input type="file" id="data" name="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
-            <button type="submit" id="uploadfilebutton" class="ment">Upload</button>
-        </form>
+            <form action="/submit" id="uploadfile" method="POST" class="form_submit" enctype="multipart/form-data">
+                <input type="file" id="data" name="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+                <button type="submit" id="uploadfilebutton" class="ment">Upload</button>
+            </form>
+        </div>
         <br><br>
         <hr>
         <script type="module" src="index.js"></script>

@@ -1,31 +1,74 @@
-.ment{
-    background-color: rgb(19, 83, 161);
-    border: 1px solid rgb(35, 34, 34);
-    text-align: center;
-    color: white;
-    padding-top: 1.5px;
-    padding-bottom: 1.5px;
-    padding-left: 30px;
-    padding-right: 30px;
-}
-
-.ment_counter{
-    background-color: rgb(101, 186, 139);
-    border: 1px solid rgb(35, 34, 34);
-    text-align: center;
-    color: white;
-    padding-top: 1.5px;
-    padding-bottom: 1.5px;
-    padding-left: 30px;
-    padding-right: 30px;
+:root {
+  --bg:        #f5eede;  /* page background (unchanged) */
+  --panel-dark:#2E203C;  /* options area (unchanged) */
+  --panel-soft:#dcd1e8;  /* query panel: lighter, so it lifts off the dark area */
+  --ink:       #2E203C;  /* text on light surfaces */
+  --cream:     #f5eede;  /* text on dark surfaces */
+  --accent:    #F2A93B;  /* Ask + Upload */
+  --accent-hover: #f7bd63;
+  --close:     #2F7D68;  /* Close */
+  --close-hover: #3a927b;
 }
 
 body{
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    background-color: #f5eede;
+    background-color: var(--bg);
     margin: 0;
     width: 100vw;
     height: 20vh;
+}
+
+/* Ask + Upload buttons */
+.ment{
+    background-color: var(--accent);
+    border: 1px solid rgb(35, 34, 34);
+    text-align: center;
+    color: var(--ink);
+    padding-top: 1.5px;
+    padding-bottom: 1.5px;
+    padding-left: 30px;
+    padding-right: 30px;
+    cursor: pointer;
+}
+
+.ment:hover{
+    background-color: var(--accent-hover);
+}
+
+.options_area{
+    border: 0.5px solid;
+    padding: 20px;
+    margin-left: 10px;
+    margin-right: 800px;
+    width: fit-content;
+    height: fit-content;
+    border-radius: 5px;
+    background-color: var(--panel-dark);
+    color: var(--cream);   /* makes "No file chosen" readable */
+}
+
+/* Native "Choose File" button */
+.options_area input[type="file"]::file-selector-button{
+    background-color: var(--panel-soft);
+    color: var(--ink);
+    width: fit-content;
+}
+
+/* Close button */
+.ment_counter{
+    background-color: var(--close);
+    border: 1px solid rgb(35, 34, 34);
+    text-align: center;
+    color: #fff;
+    padding-top: 1.5px;
+    padding-bottom: 1.5px;
+    padding-left: 30px;
+    padding-right: 30px;
+    cursor: pointer;
+}
+
+.ment_counter:hover{
+    background-color: var(--close-hover);
 }
 
 
@@ -70,9 +113,11 @@ body{
     height: 100%;
 }
 
+/* "Ask your query" panel */
 .overlay {
     position: relative;
-    background-color: #8d99b1;
+    background-color: var(--panel-soft);
+    color: var(--ink);
     padding-left: 1%;
     padding-right: 1%;
     padding-top: 0%;
@@ -85,19 +130,33 @@ body{
 
 .query_button {
     margin-left: 20px;
-    background-color: rgb(19, 83, 161);
-    border: 1px solid rgb(35, 34, 34);
+    background-color: var(--bg);
+    border: 0px;
     text-align: center;
-    color: white;
-    padding-top: 1.5px;
-    padding-bottom: 1.5px;
-    padding-left: 30px;
-    padding-right: 30px;
+    color: var(--ink);
+    font-size: 16px;           /* Adjust as needed */
+    font-weight: 500;          /* Medium weight for text[cite: 1] */
+    padding: 12px 28px;        /* Generous horizontal padding for pill shape[cite: 1] */
+    border: none;              /* No border */
+    border-radius: 50px;       /* Fully rounded pill corners[cite: 1] */
+    cursor: pointer;           /* Pointer on hover */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
 }
 
 .query_field {
-    border: 1px;
-    border-color: rgb(32, 32, 37);
+    border: 1px solid;
+    border-color: #b3a3c6;
+    background-color: #fbf7ee;
+    color: var(--ink);
     padding-top: 1%;
     padding-bottom: 1%;
+    width: 500px;
+    height: 100px;
+}
+
+.query_field::placeholder {
+    color: #7a6a8a;
 }
