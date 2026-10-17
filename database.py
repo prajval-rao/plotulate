@@ -1,12 +1,11 @@
 from imports import *
-from main import app
-from query import query_app
+import httpx
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 
-root_app = FastAPI()
-
+db_app = FastAPI()
 origins = ["http://127.0.0.1:5500", "http://localhost:3000"]
-
-root_app.add_middleware(
+db_app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
@@ -14,5 +13,6 @@ root_app.add_middleware(
     allow_headers=["*"],
 )
 
-root_app.mount("/query", query_app)
-root_app.mount("/", app)
+
+
+
