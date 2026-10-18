@@ -68,7 +68,7 @@ All endpoints are served under `http://127.0.0.1:8000`.
 | Method | Path | Description |
 |---|---|---|
 | `POST` | `/submit` | Accepts an uploaded Excel file (`multipart/form-data`), cleans it with pandas, and returns `{ filename, content }` as JSON records. |
-| `POST` | `/query/generate_response` | Accepts `{ query, session_id, file_content }`, runs it through the Gemini model with per-session context, and returns `{ output }` as plain text. |
+| `POST` | `/generate_response` | Accepts `{ query, session_id, file_content }`, runs it through the Gemini model with per-session context, and returns `{ output }` as plain text. |
 
 ## Notes
 
