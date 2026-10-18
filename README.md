@@ -21,17 +21,22 @@ Plotulate is a data visualisation web tool — upload a dataset, explore it in a
 ## Project Structure
 
 ```
-.
-├── main.py            # FastAPI app: handles /submit (Excel upload + cleaning)
-├── query.py            # FastAPI app: handles /generate_response (LLM querying)
-├── router.py             # Mounts main.py and query.py apps into one root app
-├── imports.py           # Shared imports used across backend modules
-├── index.js             # Frontend logic: upload handling, ag-Grid rendering, query calls
-├── style.css             # Styling
-├── assets/               # Static assets
-├── uploadfile.html       # Upload UI
-├── requirements.txt      # Python dependencies
-└── package.json / package-lock.json  # Frontend dependencies
+📁 my-fastapi-app/
+├── 📁 routers/              # Modular routing components
+│   ├── 📄 __init__.py       # Initializes APIRouter() object "router"
+│   ├── 📄 data.py           # Handles /submit (Excel upload & cleaning)
+│   └── 📄 query.py          # Handles /generate_response (LLM querying)
+│
+├── 📁 assets/               # Static images and icons
+├── 📄 main.py               # FastAPI application entry point
+├── 📄 imports.py            # Shared imports used across backend modules
+│
+├── 📄 uploadfile.html       # Frontend UI template
+├── 📄 index.js              # Frontend logic (upload handling, ag-Grid, API calls)
+├── 📄 style.css             # Application styling and layout
+│
+├── 📄 requirements.txt      # Python dependencies
+└── 📄 package.json          # Node.js dependencies & scripts
 
 ```
 
@@ -67,9 +72,7 @@ All endpoints are served under `http://127.0.0.1:8000`.
 
 ## Notes
 
-- CORS is currently allow-listed for `http://127.0.0.1:5500` and `http://localhost:3000` — update the `origins` list in `main.py`/`query.py`/`router.py` if you serve the frontend elsewhere.
 - Session state (`session_storage`) is in-memory and per-process — it resets on server restart and isn't shared across multiple server instances.
-- `router.py` mounts sub-apps by prefix; when adding new mounts, register more specific prefixes (e.g. `/query`) **before** the catch-all `/` mount.
 
 ## Planned future features:
 
