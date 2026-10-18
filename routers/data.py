@@ -1,4 +1,5 @@
 from imports import *
+import datetime
 
 router = APIRouter()
 templates = Jinja2Templates(directory="templates")
@@ -11,16 +12,21 @@ async def format_file(file: UploadFile = File(...)):
     try:
         df = pd.read_excel(io.BytesIO(contents))
         df = df.fillna(0)
+        # axis = 0 is for rows
+        df = df.dropna(axis = 0)
         for column in df.columns:
-            if pd.api.types.is_datetime64_any_dtype(df[column]):
-                df[column] = df[column].dt.strftime('%Y-%m-%d %H:%M:%S')
-                continue
-            if df[column].dtype == "object":
-                try:
-                    df[column] = pd.to_datetime(df[column], errors="raise", format="%Y-%m-%d")
+            s = df[column]
+            if pd.api.types.is_datetime64_any_dtype(s):
+                df[column] = s.dt.strftime('%Y-%m-%d %H:%M:%S')
+            elif s.dtype == object:
+                non_null = s.dropna()
+                if non_null.empty:
                     continue
-                except (ValueError, TypeError):
-                    pass
+                # check all values, not just the first, since Excel columns can be mixed
+                if non_null.map(lambda x: isinstance(x, (datetime.datetime, datetime.date))).all():
+                    df[column] = s.map(
+                        lambda x: x.strftime('%Y-%m-%d %H:%M:%S') if pd.notna(x) else None
+                    )
             df[column] = pd.to_numeric(df[column], errors="coerce").fillna(df[column])
         
     except Exception as e:
