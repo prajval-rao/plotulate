@@ -21,22 +21,24 @@ Plotulate is a data visualisation web tool — upload a dataset, explore it in a
 ## Project Structure
 
 ```
-📁 my-fastapi-app/
-├── 📁 routers/              # Modular routing components
-│   ├── 📄 __init__.py       # Initializes APIRouter() object "router"
-│   ├── 📄 data.py           # Handles /submit (Excel upload & cleaning)
-│   └── 📄 query.py          # Handles /generate_response (LLM querying)
-│
-├── 📁 assets/               # Static images and icons
-├── 📄 main.py               # FastAPI application entry point
-├── 📄 imports.py            # Shared imports used across backend modules
-│
-├── 📄 uploadfile.html       # Frontend UI template
-├── 📄 index.js              # Frontend logic (upload handling, ag-Grid, API calls)
-├── 📄 style.css             # Application styling and layout
-│
-├── 📄 requirements.txt      # Python dependencies
-└── 📄 package.json          # Node.js dependencies & scripts
+my-fastapi-app/
+├── database/
+│   ├── __init__.py          # Empty for now
+│   ├── database_create.py   # Sessionmaker factory class, Base class, and engine
+│   └── models.py            # Database schemas based on input data
+├── routers/
+│   ├── __init__.py          # Initializes APIRouter() object "router"
+│   ├── data.py              # Handles /submit (Excel upload & cleaning)
+│   └── query.py             # Handles /generate_response (LLM querying)
+├── static/
+│   ├── assets/              # Static images and icons
+│   ├── index.js             # Frontend logic (upload handling, ag-Grid, API calls)
+│   └── style.css            # Application styling and layout
+├── main.py                  # FastAPI application entry point (static files mounted here)
+├── imports.py               # Shared imports used across backend modules
+├── uploadfile.html          # Frontend UI template
+├── requirements.txt         # Python dependencies
+└── package.json             # Node.js dependencies and scripts
 
 ```
 
@@ -52,9 +54,9 @@ Plotulate is a data visualisation web tool — upload a dataset, explore it in a
    ```
    GOOGLE_API_KEY=your_api_key_here
    ```
-3. Run the server (from the directory containing `router.py`):
+3. Run the server (from the directory containing `main.py`):
    ```bash
-   uvicorn router:root_app --reload --port 8000
+   uvicorn main:app --reload
    ```
 
 ### Frontend
