@@ -69,8 +69,10 @@ All endpoints are served under `http://127.0.0.1:8000`.
 
 | Method | Path | Description |
 |---|---|---|
-| `POST` | `/submit` | Accepts an uploaded Excel file (`multipart/form-data`), cleans it with pandas, and returns `{ filename, content }` as JSON records. |
+| `POST` | `/submit` | Accepts an Excel file (`.xlsx` or `.xls`) as multipart form data under the field `file`, cleans it, saves it to SQLite under a generated table name, and returns `{ filename, table_name, content }`. Returns `400` for a wrong file type or an unreadable file, and `500` if saving fails. |
+| `GET` | `/data/{table_name}` | Reads a saved dataset from SQLite by its generated table name (format `U1_` + 12 hex characters). Accepts an optional `limit` query parameter (default `100`) and returns `{ table_name, content }`, where `content` is a list of row objects with blank cells as `null`. Returns `404` if the name is invalid or the table doesn't exist. |
 | `POST` | `/generate_response` | Accepts `{ query, session_id, file_content }`, runs it through the Gemini model with per-session context, and returns `{ output }` as plain text. |
+
 
 ## Notes
 
