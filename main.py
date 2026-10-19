@@ -1,5 +1,7 @@
 from imports import *
 from routers import router
+from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
 
@@ -13,4 +15,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.mount("/static", StaticFiles(directory="static"), name="static")
 app.include_router(router)
+
+templates = Jinja2Templates(directory=".")
+
+@app.get("/", response_class=HTMLResponse)
+def home(request: Request):
+    return templates.TemplateResponse(request, "uploadfile.html")

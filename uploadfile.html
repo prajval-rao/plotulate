@@ -4,13 +4,13 @@
         <meta charset = "UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>My website</title>
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="static/style.css">
     </head>
     <body>
         <section class="hero-banner">
             <div class="banner-content">
                 <br><br><br>
-                <img src="assets/plotulate.png" width="150" height="150"> 
+                <img src="static/assets/plotulate.png" width="150" height="150"> 
                 <h2>Spreadsheet inference and visualisation tool</h2>
             </div>
         </section>
@@ -33,14 +33,14 @@
                 </div>
             </div><br>
 
-            <form action="/submit" id="uploadfile" method="POST" class="form_submit" enctype="multipart/form-data">
+            <form id="uploadfile">
                 <input type="file" id="data" name="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
                 <button type="submit" id="uploadfilebutton" class="ment">Upload</button>
             </form>
         </div>
         <br><br>
         <hr>
-        <script type="module" src="index.js"></script>
+        <script type="module" src="static/index.js"></script>
         <div id="myGrid" class="sheet_data"></div>
     </body>
 </html>

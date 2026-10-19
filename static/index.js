@@ -7,6 +7,7 @@ let data_for_query = null;
 
 document.getElementById("uploadfile").addEventListener("submit", async (e) => {e.preventDefault();
     /* change to track: const filedata and file now not const as query should access these */
+    console.log(`handler ran`)
     filedata = document.getElementById("data");
     file = filedata.files[0];
     if (!file){
@@ -16,7 +17,7 @@ document.getElementById("uploadfile").addEventListener("submit", async (e) => {e
     const formdata = new FormData();
     formdata.append("file", file);
     try{
-        const response = await fetch("http://127.0.0.1:8000/submit", {
+        const response = await fetch("/submit", {
             method: "POST",
             body: formdata
         });
