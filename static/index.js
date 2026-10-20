@@ -7,7 +7,6 @@ let data_for_query = null;
 
 document.getElementById("uploadfile").addEventListener("submit", async (e) => {e.preventDefault();
     /* change to track: const filedata and file now not const as query should access these */
-    console.log(`handler ran`)
     filedata = document.getElementById("data");
     file = filedata.files[0];
     if (!file){

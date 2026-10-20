@@ -4,11 +4,12 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, DeclarativeBase
 
 # file created automatically
-SQLALCHEMY_DATABASE_URL = "sqlite:///./userdata.db"
+SQLALCHEMY_DATABASE_URL = "sqlite+pysqlite:///./userdata.db"
 
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL,
     connect_args={"check_same_thread": False}, # sqlite-specific, only allows one thread so we disable the restriction here
+    echo = True
 )
 
 # factory that creates database sessions, session is a transaction:
