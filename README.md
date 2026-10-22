@@ -29,7 +29,8 @@ my-fastapi-app/
 ├── routers/
 │   ├── __init__.py          # Initializes APIRouter() object "router"
 │   ├── data.py              # Handles /submit (Excel upload & cleaning)
-│   └── query.py             # Handles /generate_response (LLM querying)
+|   ├── query_handler.py     # Determines type of query being asked (general, SQL or visualisation-related)
+|   └── query.py             # Handles /generate_response (LLM querying)
 ├── static/
 │   ├── assets/              # Static images and icons
 │   ├── index.js             # Frontend logic (upload handling, ag-Grid, API calls)
