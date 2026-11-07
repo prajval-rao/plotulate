@@ -4,7 +4,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, DeclarativeBase
 
 # file created automatically
-SQLALCHEMY_DATABASE_URL = "sqlite+pysqlite:///./userdata.db"
+SQLALCHEMY_DATABASE_URL = "sqlite+pysqlite:///./userdata/userdata.db"
 
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL,
