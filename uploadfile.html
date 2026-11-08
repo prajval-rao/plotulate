@@ -25,6 +25,14 @@
                     <form action="submit" id="query_form" method="POST">
                         <div class="query_row">
                             <input type="text" id="userprompt" class="query_field" placeholder="Enter prompt here">
+                            <div class="query_type_selector">
+                                <input type="radio" id="general" name="query_class" value="general" checked>
+                                <label for="general">General query</label>
+                                <input type="radio" id="sql" name="query_class" value="sql">
+                                <label for="sql">Configuration</label>
+                                <input type="radio" id="graph" name="query_class" value="graph">
+                                <label for="graph">Create chart</label>
+                            </div>
                             <button type="submit" id="promptcall" class="ment">Ask!</button>
                         </div>
                         <p id="llm_response"></p>

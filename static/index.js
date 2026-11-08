@@ -98,8 +98,13 @@ window.addEventListener('click', (e) => {
 
 const prompt_button = document.getElementById("promptcall");
 let generated_response = document.getElementById("llm_response");
+const queryClass = document.getElementsByName("query_class");
+
 
 document.getElementById("query_form").addEventListener("submit", async (e) => {e.preventDefault();
+    const checked = document.querySelector('input[type="radio"]:checked');
+    const selectedValue = checked ? checked.value : null;
+    console.log(selectedValue);
     if (!userprompt.value){
         generated_response.textContent = "You have not typed a prompt, which is necessary for a response. "
     }
@@ -116,7 +121,8 @@ document.getElementById("query_form").addEventListener("submit", async (e) => {e
                 body: JSON.stringify({
                     query: userprompt.value,
                     session_id: "session1",
-                    file_content: data_for_query
+                    file_content: data_for_query,
+                    query_class: selectedValue
                 })
             })
             if (!response.ok) throw new Error("Server error returning LLM response!!!");

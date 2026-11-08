@@ -16,6 +16,7 @@ class QueryPayload(BaseModel):
     query: str
     session_id: str
     file_content: Any
+    query_class: str
 
 graph = StateGraph(QueryState)
 
