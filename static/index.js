@@ -4,6 +4,7 @@ ModuleRegistry.registerModules([AllCommunityModule]);
 let filedata = null;
 let file = null;
 let data_for_query = null;
+let table_name = null;
 
 document.getElementById("uploadfile").addEventListener("submit", async (e) => {e.preventDefault();
     /* change to track: const filedata and file now not const as query should access these */
@@ -24,6 +25,8 @@ document.getElementById("uploadfile").addEventListener("submit", async (e) => {e
         const cleandata = await response.json();
         console.log("Cleaned data: ", cleandata.filename);
         data_for_query = cleandata.content;
+        table_name = cleandata.table_name;
+        console.log(table_name);
         const rows = cleandata.content;
         rows.forEach(row => {
             console.log(row);
@@ -102,7 +105,7 @@ const queryClass = document.getElementsByName("query_class");
 
 
 document.getElementById("query_form").addEventListener("submit", async (e) => {e.preventDefault();
-    const checked = document.querySelector('input[type="radio"]:checked');
+    const checked = document.querySelector('input[name="query_class"]:checked');
     const selectedValue = checked ? checked.value : null;
     console.log(selectedValue);
     if (!userprompt.value){
@@ -122,7 +125,8 @@ document.getElementById("query_form").addEventListener("submit", async (e) => {e
                     query: userprompt.value,
                     session_id: "session1",
                     file_content: data_for_query,
-                    query_class: selectedValue
+                    query_class: selectedValue,
+                    table_name: table_name
                 })
             })
             if (!response.ok) throw new Error("Server error returning LLM response!!!");

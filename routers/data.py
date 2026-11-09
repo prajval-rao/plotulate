@@ -42,7 +42,7 @@ async def format_file(file: UploadFile = File(...)):
         df = await run_in_threadpool(lambda: clean_df(pd.read_excel(io.BytesIO(contents))))
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Excel file failed to load and format: {e}")
-    table_name = f"U1_{uuid.uuid4().hex[:12]}"
+    table_name = str(f"U1_{uuid.uuid4().hex[:12]}")
     try:
         models.fetch_PandasData(df, table_name=table_name, base_class=database_create.Base)
         database_create.Base.metadata.create_all(database_create.engine)
