@@ -5,8 +5,8 @@ from sqlalchemy.engine import Engine, Inspector
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_google_genai import ChatGoogleGenerativeAI
 from dotenv import load_dotenv
-from ..database import database_create
-from src.routers.sql_query_schema import QuerySpec
+from src.database import database_create
+from src.routers.schema import QuerySpec
 
 load_dotenv()
 g_model = ChatGoogleGenerativeAI(model="gemini-3.1-flash-lite", temperature=0)
@@ -37,7 +37,7 @@ def human_to_query_spec(query: str, table_name: str):
     sql_query_spec = chain.invoke({"schema": describe_schema(table_name), "query": query})
     return sql_query_spec
 
-print(human_to_query_spec("I want to see the branch column only", "U1_034585f91fc2"))
+print(human_to_query_spec("I want to see the data of all the people who got an average calculation of more than 13", "U1_034585f91fc2"))
 
 
 
