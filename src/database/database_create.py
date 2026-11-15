@@ -3,11 +3,12 @@ import httpx
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, DeclarativeBase
 
+load_dotenv()
+DATABASE_URL = os.getenv("DATABASE_URL")
 # file created automatically
-SQLALCHEMY_DATABASE_URL = "sqlite+pysqlite:///./userdata/userdata.db"
 
 engine = create_engine(
-    SQLALCHEMY_DATABASE_URL,
+    DATABASE_URL,
     connect_args={"check_same_thread": False}, # sqlite-specific, only allows one thread so we disable the restriction here
     echo = True
 )
