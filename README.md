@@ -21,26 +21,28 @@ Plotulate is a data visualisation web tool — upload a dataset, explore it in a
 ## Project Structure
 
 ```
-my-fastapi-app/
-├── database/
-│   ├── __init__.py          # Empty for now
-│   ├── database_create.py   # Sessionmaker factory class, Base class, and engine
-│   └── models.py            # Database schemas based on input data
-├── routers/
-│   ├── __init__.py          # Initializes APIRouter() object "router"
-│   ├── data.py              # Handles /submit (Excel upload & cleaning)
-|   ├── query_handler.py     # Determines type of query being asked (general, SQL or visualisation-related)
-|   └── query.py             # Handles /generate_response (LLM querying)
-├── static/
-│   ├── assets/              # Static images and icons
-│   ├── index.js             # Frontend logic (upload handling, ag-Grid, API calls)
-│   └── style.css            # Application styling and layout
-├── main.py                  # FastAPI application entry point (static files mounted here)
-├── imports.py               # Shared imports used across backend modules
-├── uploadfile.html          # Frontend UI template
-├── requirements.txt         # Python dependencies
-└── package.json             # Node.js dependencies and scripts
-
+plotulate/
+├── src/
+│   ├── database/
+│   │   ├── __init__.py          # Empty for now
+│   │   ├── database_create.py   # Sessionmaker factory class, Base class, and engine
+│   │   └── models.py            # Database schemas based on input data
+│   ├── routers/
+│   │   ├── __init__.py          # Initializes APIRouter() object "router"
+│   │   ├── data.py              # Handles /submit (Excel upload & cleaning)
+│   │   ├── query_handler.py     # Determines type of query being asked (general, SQL, or visualisation)
+│   │   └── query.py             # Handles /generate_response (LLM querying)
+│   └── static/
+│       ├── assets/              # Static images and icons
+│       ├── index.js             # Frontend logic (upload handling, ag-Grid, API calls)
+│       └── style.css            # Application styling and layout
+├── main.py                      # FastAPI application entry point (static files mounted here)
+├── imports.py                   # Shared imports used across backend modules
+├── uploadfile.html              # Frontend UI template
+├── requirements.txt             # Python dependencies
+├── Dockerfile
+├── .dockerignore
+└── package.json                 # Node.js dependencies and scripts
 ```
 
 ## Setup
